@@ -15,9 +15,9 @@ The script should be running on any node in a replication chain. In the followin
 |  DB1  |------async replication----> |  DB2  |
 +-------+                             +-------+
      \                                      
-      \                                +-------+
+      \                               +-------+
        +-------async replication----> |  DB3  |
-                                       +-------+
+                                      +-------+
 ```
 
 Where:
@@ -37,7 +37,7 @@ MariaDB> CREATE USER 'checksum'@'192.168.10.%' IDENTIFIED BY 'mypassword';
 MariaDB> GRANT SELECT ON *.* TO 'checksum'@'192.168.10.%';
 ```
 
-** We created two users with same username but different hosts (localhost = socket while 192.168.10.% = pattern matching for all IP under 192.168.10.0/24 network).
+** The above will create two database users with same username but different hosts (localhost = socket while 192.168.10.% = pattern matching for all IP under 192.168.10.0/24 network).
 
 ## Running the script
 
