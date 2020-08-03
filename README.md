@@ -41,7 +41,7 @@ MariaDB> GRANT SELECT ON *.* TO 'checksum'@'192.168.10.%';
 
 ## Running the script
 
-Before running the script, make sure the application is not sending any writes to the cluster (otherwise the result will always be inconsistent), or the replication slave must be stopped between two nodes that you want to compare. In this example, we are going to stop the replication slave on `DB3` momentarily:
+Before running the script, make sure the application is not sending any writes to the cluster (otherwise, the result will always be inconsistent), or the replication slave must be stopped between two nodes that you want to compare. In this example, we are going to stop the replication slave on `DB3` momentarily:
 
 ```
 MariaDB> STOP SLAVE;
