@@ -52,45 +52,41 @@ for TABLE in $(cat $TARGET_TABLELIST); do
 done
 
 echo
-echo "Table list comparison"
-echo "---------------------"
-echo
-echo "Source table list ($SOURCE):"
-cat $SOURCE_TABLELIST
-echo 
-echo "Target table list ($TARGET):"
-cat $TARGET_TABLELIST
-echo
+echo "Table list comparison (1/2)"
+echo "---------------------------"
 echo "Comparing table list on both servers ..."
-diff $SOURCE_TABLELIST $TARGET_TABLELIST
+echo
+printf '%-60s %-20s\n' "Source ($SOURCE)" "Destination ($TARGET)"
+printf '%-60s %-20s\n' "================" "============================="
+diff -y $SOURCE_TABLELIST $TARGET_TABLELIST
+echo "----------------"
+echo
 if [ $? -eq 0 ]; then
-	echo -n "Result: "
-	echo -e "\e[32mLooks good! No difference found.\e[39m"
-	TABLELIST_IS_SYNCED=1
+        echo -n "Result: "
+        echo -e "\e[32mLooks good! No difference found.\e[39m"
+        TABLELIST_IS_SYNCED=1
 else
-	echo -n "Result: "
-	echo -e "\e[31mDifference found.\e[39m"
-	TABLELIST_IS_SYNCED=0
+        echo -n "Result: "
+        echo -e "\e[31mDifference found.\e[39m"
+        TABLELIST_IS_SYNCED=0
 fi
 
 echo
-echo "Checksum comparison"
-echo "-------------------"
-echo 
-echo "Source checksum ($SOURCE):"
-cat $SOURCE_CHECKSUM
-echo 
-echo "Target checksum ($TARGET):"
-cat $TARGET_CHECKSUM
-echo
+echo "Checksum comparison (2/2)"
+echo "-------------------------"
 echo "Comparing tables' checksum for both servers ..."
-diff $SOURCE_CHECKSUM $TARGET_CHECKSUM
+echo
+printf '%-60s %-20s\n' "Source ($SOURCE)" "Destination ($TARGET)"
+printf '%-60s %-20s\n' "================" "============================="
+diff -y $SOURCE_CHECKSUM $TARGET_CHECKSUM
+echo "----------------"
+echo
 if [ $? -eq 0 ]; then
-	echo -n "Result: "
+        echo -n "Result: "
         echo -e "\e[32mLooks good! No difference found.\e[39m"
         TABLES_ARE_SYNCED=1
 else
-	echo -n "Result: "
+        echo -n "Result: "
         echo -e "\e[31mDifference found.\e[39m"
         TABLES_ARE_SYNCED=0
 fi
@@ -98,11 +94,12 @@ fi
 echo
 echo "Summary: "
 if [ $TABLELIST_IS_SYNCED -eq 1 ] && [ $TABLES_ARE_SYNCED -eq 1 ]; then
-	echo -e "\e[32mData on both servers are consistent.\e[39m"
+        echo -e "\e[32mData on both servers are consistent.\e[39m"
 else
-	echo -e "\e[31mData on both servers are NOT consistent. Please sync it first, otherwise data lost might happen!\e[39m"
+        echo -e "\e[31mData on both servers are NOT consistent. Please sync it first, otherwise data lost might happen!\e[39m"
 fi
 echo
+
 
 # Cleaning up temp files
 rm -f $SOURCE_CHECKSUM
