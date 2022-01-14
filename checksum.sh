@@ -36,7 +36,7 @@ echo "|  determine whether they are in a consistent state  |"
 echo "+====================================================+"
 echo
 echo "Generating table list on ${SOURCE}..."
-mysql -u$DBUSER -p$DBPASS -h $SOURCE -P $PORT -A -Bse 'SELECT CONCAT(table_schema,".", table_name) FROM information_schema.tables WHERE table_schema NOT IN ("mysql","information_schema","performance_schema","sys")' >> $SOURCE_TABLELIST
+mysql -u$DBUSER -p$DBPASS -h $SOURCE -P $PORT -A -Bse 'SELECT CONCAT(table_schema,".", table_name) FROM information_schema.tables WHERE table_schema NOT IN ("mysql","information_schema","performance_schema","sys","ndbinfo")' >> $SOURCE_TABLELIST
 [ $? -ne 0 ] && echo 'Error while generating table list. Please check if the DB credentials are correct.' && exit 1
 
 for TABLE in $(cat $SOURCE_TABLELIST); do
@@ -44,7 +44,7 @@ for TABLE in $(cat $SOURCE_TABLELIST); do
 done
 
 echo "Generating table list on ${TARGET}..."
-mysql -u$DBUSER -p$DBPASS -h $TARGET -P $PORT -A -Bse 'SELECT CONCAT(table_schema,".", table_name) FROM information_schema.tables WHERE table_schema NOT IN ("mysql","information_schema","performance_schema","sys")' >> $TARGET_TABLELIST
+mysql -u$DBUSER -p$DBPASS -h $TARGET -P $PORT -A -Bse 'SELECT CONCAT(table_schema,".", table_name) FROM information_schema.tables WHERE table_schema NOT IN ("mysql","information_schema","performance_schema","sys","ndbinfo")' >> $TARGET_TABLELIST
 [ $? -ne 0 ] && echo 'Error while generating table list. Please check if the DB credentials are correct.' && exit 1
 
 for TABLE in $(cat $TARGET_TABLELIST); do
